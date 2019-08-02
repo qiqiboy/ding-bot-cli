@@ -22,7 +22,7 @@
 ## 安装
 
 ```bash
-$ npm install dingding-cli -g
+$ npm install ding-bot-cli -g
 ```
 
 ## 使用

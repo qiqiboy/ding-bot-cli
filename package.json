@@ -1,5 +1,5 @@
 {
-  "name": "dingding-cli",
+  "name": "ding-bot-cli",
   "version": "0.0.1",
   "description": "DingTalk robot messages sender",
   "main": "lib/index.js",
