@@ -119,16 +119,8 @@ $ dingding actionCard '{
     "text": "Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖 啡馆的计划",
     "hideAvatar": "0",
     "btnOrientation": "0",
-    "btns": [
-        {
-            "title": "内容不错",
-            "actionURL": "https://github.com/qiqiboy/ding-bot-cli"
-        },
-        {
-            "title": "不感兴趣",
-            "actionURL": "https://github.com/qiqiboy/ding-bot-cli"
-        }
-    ]
+    "singleTitle" : "阅读全文",
+    "singleURL" : "https://github.com/qiqiboy/ding-bot-cli"
   }' --token xxx
 
 # 独立跳转
