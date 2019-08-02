@@ -30,7 +30,7 @@ const dingCLI = commander
         }
 
         if (!msgTypes.includes(msgType)) {
-            return spinner.fail(chalk.red(`<type> must be one of [text, link, markdown, actionCard, freeCard]`));
+            return spinner.fail(chalk.red(`<type> must be one of [text, link, markdown, actionCard, feedCard]`));
         }
 
         let body;

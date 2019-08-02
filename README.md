@@ -15,7 +15,10 @@
     - [发送带链接文本消息](#发送带链接文本消息)
     - [发送 markdown 语法消息](#发送-markdown-语法消息)
     - [发送 ActionCard 类型消息](#发送-actioncard-类型消息)
-    - [发送 feedCard 类型消息](#发送-feedcard-类型消息)
+    - [发送 FeedCard 类型消息](#发送-feedcard-类型消息)
+* [特殊场景](#特殊场景)
+    - [`npm scrips`](#npm-scrips)
+    - [`gitlab ci`](#gitlab-ci)
 
 <!-- vim-markdown-toc -->
 
@@ -27,17 +30,19 @@ $ npm install ding-bot-cli -g
 
 ## 使用
 
+全局安装后就可以使用`dingding`命令了；如果是项目中本地安装，你可以在`package.json`的`scripts`里直接调用`dingding`命令，也可以通过`node_modules/.bin/dingding`调用.
+
 ```bash
 dingding <type> <jsonBody> --token [access token] --at [mobiles]
 ```
 
 ### `type`
 
-支持 `text` `link` `markdown` `freeCard` `actionCard`等类型
+支持 `text` `link` `markdown` `feedCard` `actionCard`等类型
 
 ### `jsonBody`
 
-与`type`对应的消息体，需要是 json 类型的字符串。具体消息解构请参考：[钉钉机器人消息类型及数据格式](https://open-doc.dingtalk.com/microapp/serverapi2/qf2nxq#-3)
+与`type`对应的消息体，需要是 json 对象类型的字符串。具体消息解构请参考：[钉钉机器人消息类型及数据格式](https://open-doc.dingtalk.com/microapp/serverapi2/qf2nxq#-3)
 
 **注意**：`jsonBody`不要求严格的 json 格式，只要是能解析成`js Object`对象的字符串都可以，甚至你还可以插入一些表达式：
 
@@ -49,7 +54,7 @@ $ dingding text '{content: "a" + "b" + "c"}' --token xxx
 $ dingding text '{content: `我今年${10 + 15}岁了`}' --token xxx
 
 # 调用数组方法
-$ dingding text '{content: ["a", "b", "c"].join("-"))}' --token xxx
+$ dingding text '{content: ["a", "b", "c"].join("-")}' --token xxx
 
 # 对SHELL环境变量进行表达式运算
 $ SOME_VARIABLE=a-b-c
@@ -145,7 +150,7 @@ $ dingding actionCard actionCard '{
   }' --token xxx
 ```
 
-### 发送 feedCard 类型消息
+### 发送 FeedCard 类型消息
 
 ```bash
 $ dingding feedCard '{
@@ -163,3 +168,35 @@ $ dingding feedCard '{
     ]
   }' --token xxx
 ```
+
+## 特殊场景
+
+### `npm scrips`
+
+```json
+{
+    "name": "project",
+    "version": "1.0.0",
+    "scripts": {
+        "deploy": "node ./scripts/deploy.js",
+        "notify": "dingding text '{ content: `Deploy project succeed!` }' --token xxx"
+    }
+}
+```
+
+### `gitlab ci`
+
+```yaml
+deploy:
+    script:
+        - node ./scripts/deploy.js
+        # 有特殊字符，所以需要包裹双引号。具体可参考下方说明
+        - "dingding text '{ title: `Deploy project succeed!` }' --token xxx"
+```
+
+> **Note:**
+> Sometimes, `script` commands will need to be wrapped in single or double quotes.
+> For example, commands that contain a colon (`:`) need to be wrapped in quotes so
+> that the YAML parser knows to interpret the whole thing as a string rather than
+> a "key: value" pair. Be careful when using special characters:
+> `:`, `{`, `}`, `[`, `]`, `,`, `&`, `*`, `#`, `?`, `|`, `-`, `<`, `>`, `=`, `!`, `%`, `@`, `` ` ``.
