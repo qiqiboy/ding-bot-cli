@@ -1,0 +1,58 @@
+{
+  "name": "dingding-cli",
+  "version": "0.0.1",
+  "description": "DingTalk robot messages sender",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib"
+  },
+  "engines": {
+    "node": ">8.0.0"
+  },
+  "bin": {
+    "dingding": "lib/index.js"
+  },
+  "keywords": [
+    "DingTalk",
+    "dingding",
+    "dingtalk-robot",
+    "dingding-bot",
+    "dingding-alert"
+  ],
+  "babel": {
+    "only": [
+      "./src"
+    ],
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "8"
+          },
+          "modules": "commonjs",
+          "useBuiltIns": "entry",
+          "corejs": 3
+        }
+      ]
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiqiboy/dingding-cli.git"
+  },
+  "author": "qiqiboy",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "ora": "^3.4.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}
