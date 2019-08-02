@@ -2,7 +2,7 @@
   "name": "ding-bot-cli",
   "version": "0.0.2",
   "description": "DingTalk robot messages sender",
-  "main": "lib/index.js",
+  "main": "only-cli.js",
   "scripts": {
     "build": "babel src --out-dir lib"
   },
@@ -39,7 +39,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/qiqiboy/dingding-cli.git"
+    "url": "https://github.com/qiqiboy/ding-bot-cli.git"
   },
   "author": "qiqiboy",
   "license": "MIT",

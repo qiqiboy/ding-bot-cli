@@ -94,7 +94,7 @@ $ dingding link '{
     "text": "这个即将发布的新版本，创始人陈航（花名“无招”）称它为“红树林”。而在此之前，每当面临重大升级，产品经理们 都会取一个应景的代号，这一次，为什么是“红树林”？",
     "title": "时代的火车向前开",
     "picUrl": "",
-    "messageUrl": "https://github.com/qiqiboy/dingding-cli"
+    "messageUrl": "https://github.com/qiqiboy/ding-bot-cli"
  }' --token xxx
 ```
 
@@ -106,7 +106,7 @@ $ dingding markdown '{
      "text": "#### 杭州天气 @156xxxx8827\n" +
              "> 9度，西北风1级，空气良89，相对温度73%\n\n" +
              "> ![screenshot](https://gw.alipayobjects.com/zos/skylark-tools/public/files/84111bbeba74743d2771ed4f062d1f25.png)\n"  +
-             "> ###### 10点20分发布 [天气](https://github.com/qiqiboy/dingding-cli) \n"
+             "> ###### 10点20分发布 [天气](https://github.com/qiqiboy/ding-bot-cli) \n"
   }' --token xxx
 ```
 
@@ -122,11 +122,11 @@ $ dingding actionCard '{
     "btns": [
         {
             "title": "内容不错",
-            "actionURL": "https://github.com/qiqiboy/dingding-cli"
+            "actionURL": "https://github.com/qiqiboy/ding-bot-cli"
         },
         {
             "title": "不感兴趣",
-            "actionURL": "https://github.com/qiqiboy/dingding-cli"
+            "actionURL": "https://github.com/qiqiboy/ding-bot-cli"
         }
     ]
   }' --token xxx
@@ -140,11 +140,11 @@ $ dingding actionCard actionCard '{
     "btns": [
         {
             "title": "内容不错",
-            "actionURL": "https://github.com/qiqiboy/dingding-cli"
+            "actionURL": "https://github.com/qiqiboy/ding-bot-cli"
         },
         {
             "title": "不感兴趣",
-            "actionURL": "https://github.com/qiqiboy/dingding-cli"
+            "actionURL": "https://github.com/qiqiboy/ding-bot-cli"
         }
     ]
   }' --token xxx
@@ -157,12 +157,12 @@ $ dingding feedCard '{
     "links": [
         {
             "title": "时代的火车向前开",
-            "messageURL": "https://github.com/qiqiboy/dingding-cli",
+            "messageURL": "https://github.com/qiqiboy/ding-bot-cli",
             "picURL": "https://avatars3.githubusercontent.com/u/3774036?s=460&v=4"
         },
         {
             "title": "时代的火车向前开2",
-            "messageURL": "https://github.com/qiqiboy/dingding-cli",
+            "messageURL": "https://github.com/qiqiboy/ding-bot-cli",
             "picURL": "https://avatars3.githubusercontent.com/u/3774036?s=460&v=4"
         }
     ]
