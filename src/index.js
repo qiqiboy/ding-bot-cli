@@ -40,6 +40,11 @@ const dingCLI = commander
 
             body = jsonParser();
         } catch (error) {
+            console.log(chalk.cyan((error.name || 'Error') + ':'), chalk.grey(error.message));
+            console.log(chalk.cyan('<type>: '), chalk.grey(msgType));
+            console.log(chalk.cyan('<jsonBody>: '), chalk.grey(jsonBody));
+            console.log();
+
             return spinner.fail(chalk.red('<jsonBody> must be a json string'));
         }
 
