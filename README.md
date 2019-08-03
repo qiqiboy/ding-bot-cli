@@ -50,8 +50,8 @@ dingding <type> <jsonBody> --token [access token] --at [mobiles]
 # 字符串拼接
 $ dingding text '{content: "a" + "b" + "c"}' --token xxx
 
-# ES6字符串模板 + 数学运算
-$ dingding text '{content: `我今年${10 + 15}岁了`}' --token xxx
+# 字符串拼接 + 数学运算
+$ dingding text '{content: "我今年" + (10 + 15) + "岁了"}' --token xxx
 
 # 调用数组方法
 $ dingding text '{content: ["a", "b", "c"].join("-")}' --token xxx
@@ -171,7 +171,7 @@ $ dingding feedCard '{
     "version": "1.0.0",
     "scripts": {
         "deploy": "node ./scripts/deploy.js",
-        "notify": "dingding text '{ content: `Deploy project succeed!` }' --token xxx"
+        "notify": "dingding text \"{ content: 'Deploy project succeed!' }\" --token xxx"
     }
 }
 ```
@@ -183,7 +183,7 @@ deploy:
     script:
         - node ./scripts/deploy.js
         # 有特殊字符，所以需要包裹双引号。具体可参考下方说明
-        - "dingding text '{ title: `Deploy project succeed!` }' --token xxx"
+        - "dingding text \"{ content: 'Deploy project succeed!' }\" --token xxx"
 ```
 
 > **Note:**
