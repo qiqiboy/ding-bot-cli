@@ -18,9 +18,9 @@ const dingCLI = commander
     .arguments('<type> <jsonBody>')
     .option('-t, --token <token>', '机器人的access token')
     .option(
-        '-a, --at <mobiles>',
+        '-a, --at [mobiles]',
         '被@人的手机号（以空格或者半角逗号间隔多个手机号，如果传递 all 表示@全部人）',
-        value => value.split(/\s*[\s,|]\s*/g)
+        value => value && value.split(/\s*[\s,|]\s*/g)
     )
     .action(async (msgType, jsonBody) => {
         validInput = true;
