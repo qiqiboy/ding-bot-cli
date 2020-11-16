@@ -89,8 +89,8 @@ function sendDingMsg(msgtype, body) {
             msgtype,
             [msgtype]: body,
             at: dingCLI.at && {
-                atMobiles: dingCLI.at.filter(no => no.toLowerCase() !== 'all'),
-                isAtAll: dingCLI.at.some(no => no.toLowerCase() === 'all')
+                atMobiles: dingCLI.at?.filter(no => no.toLowerCase() !== 'all'),
+                isAtAll: dingCLI.at?.some(no => no.toLowerCase() === 'all')
             }
         },
         json: true

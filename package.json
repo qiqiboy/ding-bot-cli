@@ -1,6 +1,6 @@
 {
   "name": "ding-bot-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "DingTalk robot messages sender",
   "main": "only-cli.js",
   "scripts": {
