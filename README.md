@@ -45,6 +45,18 @@ dingding <type> <jsonBody> --token [access token] --at [mobiles]
 
 钉钉机器人[支持 `text` `link` `markdown` `feedCard` `actionCard`等类型](https://developers.dingtalk.com/document/robots/custom-robot-access/title-72m-8ag-pqw)，飞书机器人[支持`text` `post` `image` `share_chat` `interactive`等类型](https://open.feishu.cn/document/ukTMukTMukTM/ucTM5YjL3ETO24yNxkjN)
 
+另外从`v1.1.0`起，还支持一种`simpleCard`类型，这是跨钉钉和飞书的一种特殊约定的卡片类型，其结构类型定义如下：
+
+```typescript
+interface SimpleCardBody {
+    head: { text: string; type: 'success' | 'erroor' | 'default' };
+    title: { text: string };
+    list: Array<{ label: string; text: string }>;
+    actions: Array<{ text: string; url: string }>;
+    foot: { text: string };
+}
+```
+
 ### `jsonBody`
 
 与`type`对应的消息体，需要是 json 对象类型的字符串。具体消息解构请参考：[钉钉机器人消息类型及数据格式](https://developers.dingtalk.com/document/robots/custom-robot-access/title-72m-8ag-pqw)、[飞书机器人消息类型及数据格式](https://open.feishu.cn/document/ukTMukTMukTM/ucTM5YjL3ETO24yNxkjN)

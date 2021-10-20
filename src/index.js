@@ -8,7 +8,18 @@ import pkg from '../package.json';
 
 const spinner = ora();
 
-const msgTypes = ['text', 'link', 'markdown', 'actionCard', 'feedCard', 'post', 'image', 'share_chat', 'interactive'];
+const msgTypes = [
+    'text',
+    'link',
+    'markdown',
+    'actionCard',
+    'feedCard',
+    'post',
+    'image',
+    'share_chat',
+    'interactive',
+    'simpleCard'
+];
 
 let validInput = false;
 
@@ -80,6 +91,156 @@ if (!validInput) {
 }
 
 function sendDingMsg(msgtype, body) {
+    /**
+     * {
+     *      head: { text: string; type: 'success' | 'erroor' | 'default' };
+     *      title: { text: string; };
+     *      list: Array<{ label: string; text: string; }>;
+     *      actions: Array<{ text: string; url: string; }>
+     *      foot: { text: string; }
+     * }
+     */
+    if (msgtype === 'simpleCard') {
+        try {
+            if (dingCLI.feishu) {
+                const cardBody = {
+                    config: {
+                        wide_screen_mode: true
+                    },
+                    elements: []
+                };
+
+                if (body.head) {
+                    cardBody.header = {
+                        title: {
+                            content: body.head.text,
+                            tag: 'plain_text'
+                        }
+                    };
+
+                    if (body.head.type && body.head.type !== 'default') {
+                        cardBody.header.template = body.head.type === 'success' ? 'green' : 'red';
+                    }
+                }
+
+                if (body.title) {
+                    cardBody.elements.push({
+                        tag: 'markdown',
+                        content: `**${body.title.text}**`
+                    });
+                }
+
+                if (body.list) {
+                    cardBody.elements.push({
+                        tag: 'div',
+                        fields: body.list.filter(Boolean).map(({ label, text }) => {
+                            return {
+                                text: {
+                                    tag: 'lark_md',
+                                    content: `**${label}: **${text}`
+                                }
+                            };
+                        })
+                    });
+                }
+
+                if (body.actions) {
+                    cardBody.elements.push({
+                        tag: 'action',
+                        actions: body.actions.filter(Boolean).map(({ text, url }) => {
+                            return {
+                                tag: 'button',
+                                text: {
+                                    tag: 'plain_text',
+                                    content: text
+                                },
+                                url
+                            };
+                        })
+                    });
+                }
+
+                if (body.foot) {
+                    cardBody.elements.push({
+                        tag: 'note',
+                        elements: [
+                            {
+                                tag: 'plain_text',
+                                content: body.foot.text
+                            }
+                        ]
+                    });
+                }
+
+                return http.post('https://open.feishu.cn/open-apis/bot/v2/hook/' + dingCLI.token, {
+                    msg_type: 'interactive',
+                    card: cardBody
+                });
+            }
+
+            const cardBody = {
+                hideAvatar: '1',
+                btnOrientation: '0'
+            };
+
+            if (body.head) {
+                cardBody.title = body.head.text;
+            }
+
+            const elements = [];
+
+            if (body.title) {
+                elements.push(`### ${body.title.text}`);
+            }
+
+            if (body.list) {
+                body.list.forEach(({ label, text }) => {
+                    elements.push(`**${label}: **${text}`);
+                });
+            }
+
+            if (body.actions) {
+                elements.push(
+                    body.actions
+                        .map(({ text, url }) => {
+                            return `[${text}](${url})`;
+                        })
+                        .join('  |  ')
+                );
+            }
+
+            if (body.foot) {
+                elements.push(`\n> ${body.foot.text}`);
+            }
+
+            cardBody.text = elements.join('\n');
+
+            return http.post(
+                'https://oapi.dingtalk.com/robot/send',
+                {
+                    msgtype: 'actionCard',
+                    actionCard: cardBody
+                },
+                {
+                    params: {
+                        access_token: dingCLI.token
+                    }
+                }
+            );
+        } catch (error) {
+            spinner.fail(`${chalk.red('<jsonBody> structure is invalid：')}
+{
+    head: { text: string; type: 'success' | 'error' | 'default' };
+    title: { text: string; };
+    list: Array<{ label: string; text: string; }>;
+    actions: Array<{ text: string; url: string; }>
+    foot: { text: string; }
+}`);
+
+            throw error;
+        }
+    }
+
     if (dingCLI.feishu) {
         return http.post('https://open.feishu.cn/open-apis/bot/v2/hook/' + dingCLI.token, {
             msg_type: msgtype,
