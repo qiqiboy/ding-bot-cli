@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import request from 'request-promise';
+import http from 'axios';
 import commander from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
@@ -8,7 +8,7 @@ import pkg from '../package.json';
 
 const spinner = ora();
 
-const msgTypes = ['text', 'link', 'markdown', 'actionCard', 'feedCard'];
+const msgTypes = ['text', 'link', 'markdown', 'actionCard', 'feedCard', 'post', 'image', 'share_chat', 'interactive'];
 
 let validInput = false;
 
@@ -17,10 +17,11 @@ const dingCLI = commander
     .description('Send message by DingDing bot')
     .arguments('<type> <jsonBody>')
     .option('-t, --token <token>', '机器人的access token')
+    .option('--feishu', '飞书机器人')
     .option(
         '-a, --at [mobiles]',
         '被@人的手机号（以空格或者半角逗号间隔多个手机号，如果传递 all 表示@全部人）',
-        value => value && value.split(/\s*[\s,|]\s*/g)
+        (value) => value && value.split(/\s*[\s,|]\s*/g)
     )
     .action(async (msgType, jsonBody) => {
         validInput = true;
@@ -30,7 +31,7 @@ const dingCLI = commander
         }
 
         if (!msgTypes.includes(msgType)) {
-            return spinner.fail(chalk.red(`<type> must be one of [text, link, markdown, actionCard, feedCard]`));
+            return spinner.fail(chalk.red(`<type> must be one of [${msgTypes.join(', ')}]`));
         }
 
         let body;
@@ -51,10 +52,10 @@ const dingCLI = commander
         spinner.start(`Sending msg to DingBot[${dingCLI.token}]`);
 
         try {
-            const resp = await sendDingMsg(msgType, body);
+            const { data } = await sendDingMsg(msgType, body);
 
-            if (resp.errcode) {
-                throw new Error(JSON.stringify(resp));
+            if (data.errcode || data.code) {
+                throw new Error(JSON.stringify(data));
             }
 
             spinner.succeed('Send msg succeed!');
@@ -79,22 +80,29 @@ if (!validInput) {
 }
 
 function sendDingMsg(msgtype, body) {
-    return request({
-        method: 'POST',
-        url: 'https://oapi.dingtalk.com/robot/send',
-        qs: {
-            access_token: dingCLI.token
-        },
-        body: {
+    if (dingCLI.feishu) {
+        return http.post('https://open.feishu.cn/open-apis/bot/v2/hook/' + dingCLI.token, {
+            msg_type: msgtype,
+            [msgtype === 'interactive' ? 'card' : 'content']: body
+        });
+    }
+
+    return http.post(
+        'https://oapi.dingtalk.com/robot/send',
+        {
             msgtype,
             [msgtype]: body,
             at: dingCLI.at && {
-                atMobiles: dingCLI.at?.filter(no => no.toLowerCase() !== 'all'),
-                isAtAll: dingCLI.at?.some(no => no.toLowerCase() === 'all')
+                atMobiles: dingCLI.at?.filter((no) => no.toLowerCase() !== 'all'),
+                isAtAll: dingCLI.at?.some((no) => no.toLowerCase() === 'all')
             }
         },
-        json: true
-    });
+        {
+            params: {
+                access_token: dingCLI.token
+            }
+        }
+    );
 }
 
 export default dingCLI;

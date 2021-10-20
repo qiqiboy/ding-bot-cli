@@ -1,6 +1,6 @@
 {
   "name": "ding-bot-cli",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "DingTalk robot messages sender",
   "main": "only-cli.js",
   "scripts": {
@@ -49,10 +49,9 @@
     "@babel/preset-env": "^7.5.5"
   },
   "dependencies": {
+    "axios": "^0.23.0",
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
-    "ora": "^3.4.0",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "ora": "^3.4.0"
   }
 }
