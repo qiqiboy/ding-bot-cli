@@ -88,9 +88,11 @@ $ dingding text "{content: '$SOME_VARIABLE'.replace(/-/g, '')}" --token xxx
 
 ### `-a, --at`
 
-> 该方式仅支持钉钉机器人，飞书机器人@提到的用户请[参考飞书文档](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uUzN1YjL1cTN24SN3UjN)
+> 对于飞书机器人，该方式仅支持`text`类型消息，其他类型消息要支持@提到的用户请[参考飞书文档](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uUzN1YjL1cTN24SN3UjN)
 
-通过该参数提供要@的人的手机号。传递`all`表示@所有人。
+通过该参数提供要@的人的手机号或者飞书 openId。传递`all`表示@所有人。
+
+钉钉版
 
 ```bash
 # @指定的手机号
@@ -98,6 +100,16 @@ $ dingding text '{"content": "msg"}' --token xxx --at '14000000000,14000000001,1
 
 # @所有人
 $ dingding text '{"content": "msg"}' --token xxx --at all
+```
+
+飞书版
+
+```bash
+# @指定的手机号
+$ dingding text '{"text": "msg"}' --token xxx --at 'ou_3ed85486e7a980de26cba6b70fffb0ad,ou_489eiodjjkowee9939930002jdlwkl' --feishu
+
+# @所有人
+$ dingding text '{"text": "msg"}' --token xxx --at all --feishu
 ```
 
 ## 使用示例

@@ -31,7 +31,7 @@ const dingCLI = commander
     .option('--feishu', '飞书机器人')
     .option(
         '-a, --at [mobiles]',
-        '被@人的手机号（以空格或者半角逗号间隔多个手机号，如果传递 all 表示@全部人）',
+        '被@人的手机号(仅限钉钉机器人)或者飞书openId（以空格或者半角逗号间隔多个值，如果传递 all 表示@全部人）',
         (value) => value && value.split(/\s*[\s,|]\s*/g)
     )
     .action(async (msgType, jsonBody) => {
@@ -242,6 +242,10 @@ function sendDingMsg(msgtype, body) {
     }
 
     if (dingCLI.feishu) {
+        if (dingCLI.at && msgtype === 'text') {
+            body.text += `\n${dingCLI.at.map((no) => `<at user_id="${no}"></at>`).join(' ')}`;
+        }
+
         return http.post('https://open.feishu.cn/open-apis/bot/v2/hook/' + dingCLI.token, {
             msg_type: msgtype,
             [msgtype === 'interactive' ? 'card' : 'content']: body
