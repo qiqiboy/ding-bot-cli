@@ -165,7 +165,7 @@ function sendDingMsg(msgtype, body) {
                         tag: 'note',
                         elements: [
                             {
-                                tag: 'plain_text',
+                                tag: 'lark_md',
                                 content: body.foot.text
                             }
                         ]
@@ -239,6 +239,11 @@ function sendDingMsg(msgtype, body) {
 
             throw error;
         }
+    }
+
+    // 使飞书兼容钉钉text消息格式
+    if (msgtype === 'text' && dingCLI.feishu && 'content' in body) {
+        body.text = body.content;
     }
 
     if (dingCLI.feishu) {
