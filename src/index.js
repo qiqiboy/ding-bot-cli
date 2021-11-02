@@ -32,7 +32,7 @@ const dingCLI = commander
     .option(
         '-a, --at [mobiles]',
         '被@人的手机号(仅限钉钉机器人)或者飞书openId（以空格或者半角逗号间隔多个值，如果传递 all 表示@全部人）',
-        (value) => value && value.split(/\s*[\s,|]\s*/g)
+        (value) => value?.split(/\s*[\s,|]\s*/g)
     )
     .action(async (msgType, jsonBody) => {
         validInput = true;
