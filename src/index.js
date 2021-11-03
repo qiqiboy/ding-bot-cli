@@ -126,7 +126,7 @@ function sendDingMsg(msgtype, body) {
                 if (body.title) {
                     cardBody.elements.push({
                         tag: 'markdown',
-                        content: `**${body.title.text}**`
+                        content: `**${body.title.text?.trim()}**`
                     });
                 }
 
@@ -137,7 +137,7 @@ function sendDingMsg(msgtype, body) {
                             return {
                                 text: {
                                     tag: 'lark_md',
-                                    content: `**${label}: **${text}`
+                                    content: `**${label}:** ${text}`
                                 }
                             };
                         })
@@ -191,29 +191,32 @@ function sendDingMsg(msgtype, body) {
 
             if (body.title) {
                 elements.push(`### ${body.title.text}`);
+            } else if (cardBody.title) {
+                elements.push(`### ${cardBody.title}`);
             }
 
             if (body.list) {
                 body.list.forEach(({ label, text }) => {
-                    elements.push(`**${label}: **${text}`);
+                    elements.push(`**${label}:** ${text}`);
                 });
             }
 
             if (body.actions) {
                 elements.push(
-                    body.actions
-                        .map(({ text, url }) => {
-                            return `[${text}](${url})`;
-                        })
-                        .join('  |  ')
+                    `\n` +
+                        body.actions
+                            .map(({ text, url }) => {
+                                return `[${text}](${url})`;
+                            })
+                            .join('  |  ')
                 );
             }
 
             if (body.foot) {
-                elements.push(`\n> ${body.foot.text}`);
+                elements.push(`>_${body.foot.text}_`);
             }
 
-            cardBody.text = elements.join('\n');
+            cardBody.text = elements.join('\n\n');
 
             return http.post(
                 'https://oapi.dingtalk.com/robot/send',
