@@ -90,6 +90,10 @@ if (!validInput) {
     );
 }
 
+function trimAtTag(text) {
+    return text?.replace(/<at[^>]*>|<\/at>/ig, '')
+}
+
 function sendDingMsg(msgtype, body) {
     /**
      * {
@@ -216,7 +220,7 @@ function sendDingMsg(msgtype, body) {
                 elements.push(`>_${body.foot.text}_`);
             }
 
-            cardBody.text = elements.join('\n\n');
+            cardBody.text = elements.map(trimAtTag).join('\n\n');
 
             return http.post(
                 'https://oapi.dingtalk.com/robot/send',
