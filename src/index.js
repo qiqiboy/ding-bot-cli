@@ -217,10 +217,10 @@ function sendDingMsg(msgtype, body) {
             }
 
             if (body.foot) {
-                elements.push(`>_${body.foot.text}_`);
+                elements.push(`\n>_${body.foot.text}_`);
             }
 
-            cardBody.text = elements.map(trimAtTag).join('\n\n');
+            cardBody.text = elements.map(trimAtTag).join('  \n');
 
             return http.post(
                 'https://oapi.dingtalk.com/robot/send',
