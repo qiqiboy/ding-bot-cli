@@ -60,7 +60,7 @@ const dingCLI = commander
             return spinner.fail(chalk.red('<jsonBody> must be a json string'));
         }
 
-        spinner.start(`Sending msg to DingBot[${dingCLI.token}]`);
+        spinner.start(`Sending msg to ${dingCLI.feishu ? 'FeishuBot' : 'DingBot'}[${dingCLI.token}]`);
 
         try {
             const { data } = await sendDingMsg(msgType, body);
